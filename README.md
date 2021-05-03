@@ -1,16 +1,20 @@
-# admin
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div dir="rtl" style="text-align: right">
+  
+  # اپلیکیشن ادمین سرای مریم
+  
+ ## اجرای پروژه
+ 
+ ### Windows
+ 
+ `set http_proxy=http://127.0.0.1:YOUR_PROXY_PORT`
+ <br>
+ `set https_proxy=http://127.0.0.1:YOUR_PROXY_PORT`
+ <br>
+ `flutter pub get`
+ <br>
+ `flutter run`
+ <br>
+ 
+ باید مجازی ساز اندروید و فلاتر بر روی کامپیوتر شما نصب باشد
+    
+ </div>
