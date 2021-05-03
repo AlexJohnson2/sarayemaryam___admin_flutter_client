@@ -25,6 +25,7 @@ import 'Page__Sefaresh_Pooshak_Nozadi.dart';
 import 'Page__Sefaresh_Sayer.dart';
 import 'Page__Zivar_alat.dart';
 import 'Page__Pishnahad_Vizhe.dart';
+import 'Page__Users_kalas.dart';
 
 bool to_comments = false;
 
@@ -134,6 +135,14 @@ String address = '';
 String post_code = '';
 bool loop = false;
 List<Product> items = [];
+
+String users_kalas_getall_url = "/kala/users_kalas/getall";
+String users_kalas_delete_url = "/kala/users_kalas/delete";
+
+List<ItemsList> users_kalas_items = [
+  ItemsList("بازار کاربران", "", "http://193.176.243.61/media/Icon%20Ok-28.png",
+      Page__Users_kalas())
+];
 
 List<SignupClassList> signup_class_items = [];
 List<ItemsList> haraj_items = [

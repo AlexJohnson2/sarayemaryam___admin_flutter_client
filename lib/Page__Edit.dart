@@ -90,7 +90,8 @@ class _Page__EditState extends State<Page__Edit> {
   final Product product;
   _Page__EditState(this.product);
 
-  void edit_kala(name, text, img, amount, color_size, img2, img3, img4) async {
+  void edit_kala(name, text, img, amount, color_size, img2, img3, img4, user,
+      phone, city) async {
     var url = Uri.http(globals.django_url, "kala/" + product.group + "/edit");
     print(url);
     Response response = await post(url, body: {
@@ -103,8 +104,19 @@ class _Page__EditState extends State<Page__Edit> {
       "img4": img4,
       "amount": amount,
       "num": product.num,
-      "color_size": jsonEncode(color_size).toString()
+      "color_size": jsonEncode(color_size).toString(),
+      'user': user,
+      'phone': phone,
+      'city': city
     });
+    print(response.body);
+    print(response.body);
+    print(response.body);
+    print(response.body);
+    print(response.body);
+    print(response.body);
+    print(response.body);
+    print(response.body);
     print(response.body);
     print(jsonEncode(color_size).toString());
   }
@@ -193,6 +205,9 @@ class _Page__EditState extends State<Page__Edit> {
     var image4controller = TextEditingController(
         text: product.img4.substring(28, product.img4.length));
     var mojoodicontroller = TextEditingController();
+    var usercontroller = TextEditingController(text: product.user);
+    var phonecontroller = TextEditingController(text: product.phone);
+    var citycontroller = TextEditingController(text: product.city);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -505,6 +520,73 @@ class _Page__EditState extends State<Page__Edit> {
                 ),
               ),
               SizedBox(height: 15),
+              Material(
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "نام کاربر",
+                      hintStyle: TextStyle(color: Colors.black38),
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      icon: Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Icon(
+                          Icons.credit_card_outlined,
+                          color: Colors.black38,
+                        ),
+                      )),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                  controller: usercontroller,
+                ),
+                elevation: 20,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              SizedBox(height: 15),
+
+              Material(
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "شماره تلفن کاربر",
+                      hintStyle: TextStyle(color: Colors.black38),
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      icon: Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Icon(
+                          Icons.credit_card_outlined,
+                          color: Colors.black38,
+                        ),
+                      )),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                  controller: phonecontroller,
+                ),
+                elevation: 20,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              SizedBox(height: 15),
+              Material(
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "شهر توزیع کالا برای کاربر",
+                      hintStyle: TextStyle(color: Colors.black38),
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      icon: Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Icon(
+                          Icons.credit_card_outlined,
+                          color: Colors.black38,
+                        ),
+                      )),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                  controller: citycontroller,
+                ),
+                elevation: 20,
+                borderRadius: BorderRadius.circular(40),
+              ),
+              SizedBox(height: 15),
               Padding(
                 padding: EdgeInsets.only(left: 50, right: 50),
                 child: Material(
@@ -514,15 +596,17 @@ class _Page__EditState extends State<Page__Edit> {
                   child: InkWell(
                     onTap: () {
                       edit_kala(
-                        namecontroller.text,
-                        textcontroller.text,
-                        imagename,
-                        amountcontroller.text,
-                        globals.new_color_size,
-                        imagename2,
-                        imagename3,
-                        imagename4,
-                      );
+                          namecontroller.text,
+                          textcontroller.text,
+                          imagename,
+                          amountcontroller.text,
+                          globals.new_color_size,
+                          imagename2,
+                          imagename3,
+                          imagename4,
+                          usercontroller.text,
+                          phonecontroller.text,
+                          citycontroller.text);
                       Navigator.pop(context, true);
                       // setState(() {});
                     },

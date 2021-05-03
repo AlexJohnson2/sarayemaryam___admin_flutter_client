@@ -184,35 +184,35 @@ class _ShopBagTabState extends State<ShopBagTab> {
 
       for (var i in itemsjson) {
         var item = TarikhcheKharidList(
-          int.parse(i['id']),
-          i["name"],
-          i["text"],
-          i["amount"],
-          i["img"],
-          i["num"],
-          i["number"],
-          i['old_num'],
-          i['group'],
-          i['eitaa_id'],
-          i['address'],
-          i['post_code'],
-          i['color'],
-          i['size'],
-          i['username'],
-          i['authority'],
-          i['status'],
-          i['date'],
-          i['time'],
-          i['img2'],
-          i['img3'],
-          i['img4'],
-          i['level_sabt'],
-          i['level_amadeh_sazi'],
-          i['level_tahvil_post'],
-        );
+            int.parse(i['id']),
+            // i["name"],
+            // i["text"],
+            // i["amount"],
+            // i["img"],
+            // i["num"],
+            i["number"],
+            // i['old_num'],
+            // i['group'],
+            i['eitaa_id'],
+            i['address'],
+            i['post_code'],
+            // i['color'],
+            // i['size'],
+            i['username'],
+            i['authority'],
+            i['status'],
+            i['date'],
+            i['time'],
+            // i['img2'],
+            // i['img3'],
+            // i['img4'],
+            i['level_sabt'],
+            i['level_amadeh_sazi'],
+            i['level_tahvil_post'],
+            i['kalas']);
         _tarikhche_items.add(item);
-        globals.all_amount_tarikhche +=
-            int.parse(i['amount']) * int.parse(i['num']);
+        // globals.all_amount_tarikhche +=
+        //     int.parse(i['amount']) * int.parse(i['num']);
       }
       _tarikhche_items_reversed = _tarikhche_items.reversed;
     });
@@ -239,21 +239,23 @@ class _ShopBagTabState extends State<ShopBagTab> {
             //var item_ = globals.pooshak_mardane_getall_res['result'][id]
 
             var kala = Product(
-              product.id,
-              product.name,
-              product.text,
-              product.amount,
-              product.img,
-              product.num,
-              "product.number",
-              product.group,
-              {},
-              product.img2,
-              product.img3,
-              product.img4,
-            );
+                product.id,
+                product.name,
+                product.text,
+                product.amount,
+                product.img,
+                product.num,
+                "product.number",
+                product.group,
+                {},
+                product.img2,
+                product.img3,
+                product.img4,
+                null,
+                null,
+                null);
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Page__Discription(kala, false)));
+                builder: (context) => Page__Discription(kala, [])));
           },
           child: Padding(
             padding:
@@ -383,9 +385,9 @@ class _ShopBagTabState extends State<ShopBagTab> {
     });
   }
 
-  Card generateItemTarikhcheKharid(TarikhcheKharidList product, context) {
+  Card generateItemTarikhcheKharid(
+      TarikhcheKharidList product, context, index) {
     PersianDate date = PersianDate.pDate();
-
     Widget status = Text(
       "وضعیت : " + "",
       style: TextStyle(fontSize: 20),
@@ -422,6 +424,104 @@ class _ShopBagTabState extends State<ShopBagTab> {
       level_tahvil_post_color = Colors.green;
       level_tahvil_post_color_text = Colors.white;
     }
+
+    var all_amount = 0;
+
+    List<Widget> kala_list = [];
+    int count = 0;
+    for (var i in product.kalas['result']) {
+      all_amount += int.parse(i['amount']) * int.parse(i['num']);
+      kala_list.add(
+        Container(
+          color: Colors.black,
+          height: 1,
+        ),
+      );
+      kala_list.add(
+        InkWell(
+          onTap: () {
+            var kala = Product(
+                i['id'],
+                i['name'],
+                i['text'],
+                i['amount'],
+                i['img'],
+                i['num'],
+                "product.number",
+                i['group'],
+                i['color_size'],
+                i['img2'],
+                i['img3'],
+                i['img4'],
+                i['user'],
+                i['phone'],
+                i['city']);
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Page__Discription(kala, [])));
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            textDirection: TextDirection.rtl,
+            children: [
+              Image.network(
+                i['img'],
+                width: 100,
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Text(
+                      i['name'],
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      i['amount'],
+                      style: TextStyle(fontSize: 20, color: Colors.red),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      "رنگ : " + i['color'],
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      "سایز : " + i['size'],
+                      style: TextStyle(fontSize: 17, color: Colors.black),
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Text(
+                      "تعداد : " + i['num'],
+                      style: TextStyle(fontSize: 20),
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Text(
+                      "شماره کالا : " + i['id'].toString(),
+                      style: TextStyle(fontSize: 20),
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
     return Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       margin: EdgeInsets.all(10),
@@ -429,26 +529,31 @@ class _ShopBagTabState extends State<ShopBagTab> {
           borderRadius: BorderRadius.all(Radius.circular(15))),
       elevation: 5,
       child: Container(
-        height: 730,
+        height: 700.0 + product.kalas['result'].length * 160,
         child: InkWell(
           onTap: () {
             //var item_ = globals.pooshak_mardane_getall_res['result'][id]
 
             var kala = Product(
                 product.id,
-                product.name,
-                product.text,
-                product.amount,
-                product.img,
-                product.num,
+                product.kalas['result'][index]['name'],
+                product.kalas['result'][index]['text'],
+                product.kalas['result'][index]['amount'],
+                product.kalas['result'][index]['img'],
+                product.kalas['result'][index]['num'],
                 "product.number",
-                product.group,
+                product.kalas['result'][index]['group'],
                 {},
-                product.img2,
-                product.img3,
-                product.img4);
+                product.kalas['result'][index]['img2'],
+                product.kalas['result'][index]['img3'],
+                product.kalas['result'][index]['img4'],
+                null,
+                null,
+                null);
+            List Colors_values = [];
+
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Page__Discription(kala, false)));
+                builder: (context) => Page__Discription(kala, [])));
           },
           child: Padding(
             padding:
@@ -460,87 +565,61 @@ class _ShopBagTabState extends State<ShopBagTab> {
                     // mainAxisAlignment: MainAxisAlignment.start,
                     textDirection: TextDirection.rtl,
                     children: [
-                      Container(
-                        child: Image.network(
-                          product.img,
-                          width: 75,
-                        ),
-                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Text(
-                              product.name,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              product.amount,
-                              style: TextStyle(fontSize: 20, color: Colors.red),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              "رنگ : " + product.color,
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
-                              textDirection: TextDirection.rtl,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              "سایز : " + product.size,
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
-                              textDirection: TextDirection.rtl,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
+                            padding: EdgeInsets.only(right: 20),
                             child: Text(
                               "نام کاربری فرد : ",
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
-                              textDirection: TextDirection.rtl,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40),
-                            child: Text(
-                              product.user,
-                              style:
-                                  TextStyle(fontSize: 17, color: Colors.black),
+                              style: TextStyle(fontSize: 20),
                               textDirection: TextDirection.rtl,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(right: 20),
                             child: Text(
-                              "تعداد : " + product.num,
+                              product.user,
                               style: TextStyle(fontSize: 20),
+                              textDirection: TextDirection.rtl,
                             ),
                           ),
                           Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: status),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
+                            padding: EdgeInsets.only(right: 20),
+                            child: Text(
+                              "شماره سفارش : ",
+                              style: TextStyle(fontSize: 20),
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Text(
+                              product.id.toString(),
+                              style: TextStyle(fontSize: 20, color: Colors.red),
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 130,
                               child: Text(
-                                "کد پستی : " + product.post_code,
-                                maxLines: 6,
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 17, color: Colors.black),
+                                "کد پیگیری پرداخت در صورت موفق بودن: ",
+                                style: TextStyle(fontSize: 20),
+                                maxLines: null,
                                 textDirection: TextDirection.rtl,
                               ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Text(
+                              int.parse(product.authority.substring(1))
+                                  .toString(),
+                              style: TextStyle(fontSize: 17, color: Colors.red),
+                              textDirection: TextDirection.rtl,
                             ),
                           ),
                           Padding(
@@ -578,16 +657,15 @@ class _ShopBagTabState extends State<ShopBagTab> {
                               textDirection: TextDirection.rtl,
                             ),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width - 170,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: Text(
-                                "آدرس : " + product.address,
-                                style: TextStyle(
-                                    fontSize: 17, color: Colors.black),
-                                textDirection: TextDirection.rtl,
-                              ),
+                          Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: status),
+                          Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Text(
+                              "مبلغ کل : " + all_amount.toString(),
+                              style: TextStyle(fontSize: 20),
+                              textDirection: TextDirection.rtl,
                             ),
                           ),
                         ],
@@ -597,6 +675,16 @@ class _ShopBagTabState extends State<ShopBagTab> {
                       ),
                     ]),
                 Padding(
+                  padding: const EdgeInsets.only(
+                    left: 8,
+                    right: 8,
+                    top: 3,
+                  ),
+                  child: Column(
+                    children: kala_list,
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8, top: 3),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -605,9 +693,7 @@ class _ShopBagTabState extends State<ShopBagTab> {
                         color: level_sabt_color,
                         borderRadius: BorderRadius.circular(40),
                         child: InkWell(
-                          onTap: () {
-                            if (level_sabt_color != Colors.green) {}
-                          },
+                          onTap: () {},
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
@@ -635,12 +721,11 @@ class _ShopBagTabState extends State<ShopBagTab> {
                         borderRadius: BorderRadius.circular(40),
                         child: InkWell(
                           onTap: () {
-                            if (level_amadeh_sazi_color != Colors.green) {
-                              if (product.status != 'NOK') {
-                                ok_level_amadeh_sazi(product.user, product.name,
-                                    product.date, product.time);
-                              }
-                            }
+                            ok_level_amadeh_sazi(
+                                product.user,
+                                product.id.toString(),
+                                product.date,
+                                product.time);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -667,38 +752,36 @@ class _ShopBagTabState extends State<ShopBagTab> {
                         height: 10,
                       ),
                       Material(
-                        color: level_tahvil_post_color,
-                        borderRadius: BorderRadius.circular(40),
-                        child: InkWell(
-                          onTap: () {
-                            if (level_tahvil_post_color != Colors.green) {
-                              if (product.status != 'NOK') {
-                                ok_level_tahvil_post(product.user, product.name,
-                                    product.date, product.time);
-                              }
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                border: Border.all(color: Colors.black)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width - 50,
-                                child: Text(
-                                  "تحویل سفارش به پست",
-                                  maxLines: null,
-                                  textAlign: TextAlign.center,
-                                  textDirection: TextDirection.rtl,
-                                  style: TextStyle(
-                                      color: level_tahvil_post_color_text),
+                          color: level_tahvil_post_color,
+                          borderRadius: BorderRadius.circular(40),
+                          child: InkWell(
+                            onTap: () {
+                              ok_level_tahvil_post(
+                                  product.user,
+                                  product.id.toString(),
+                                  product.date,
+                                  product.time);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  border: Border.all(color: Colors.black)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width - 50,
+                                  child: Text(
+                                    "تحویل سفارش به پست",
+                                    maxLines: null,
+                                    textAlign: TextAlign.center,
+                                    textDirection: TextDirection.rtl,
+                                    style: TextStyle(
+                                        color: level_tahvil_post_color_text),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
+                          )),
                     ],
                   ),
                 ),
@@ -755,7 +838,7 @@ class _ShopBagTabState extends State<ShopBagTab> {
               itemCount: _tarikhche_items.length,
               itemBuilder: (context, index) {
                 return generateItemTarikhcheKharid(
-                    _tarikhche_items_reversed.toList()[index], context);
+                    _tarikhche_items_reversed.toList()[index], context, index);
               },
             ),
           ),

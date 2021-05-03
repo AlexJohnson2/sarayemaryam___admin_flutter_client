@@ -10,22 +10,27 @@ import 'StoreTab.dart';
 import 'Page__Pooshak_mardane.dart';
 import 'ShopBagTab.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'ImageView.dart';
 
 class Page__Discription extends StatefulWidget {
   Product product;
   bool refresh;
-  Page__Discription(this.product, this.refresh);
+  List colors_values;
+  Page__Discription(this.product, this.colors_values);
   @override
   _Page__DiscriptionState createState() =>
-      _Page__DiscriptionState(this.product, this.refresh);
+      _Page__DiscriptionState(this.product, this.colors_values);
 }
 
 class _Page__DiscriptionState extends State<Page__Discription> {
   var back_page;
   Product product;
-  bool refresh;
+  List refresh;
   List colors_values;
-  _Page__DiscriptionState(this.product, this.refresh);
+  _Page__DiscriptionState(this.product, this.colors_values);
 
   void add_to_cart(name, amount, text, img, id, num, old_num) async {
     var url = Uri.http(globals.django_url, globals.add_to_cart_url);
@@ -223,6 +228,8 @@ class _Page__DiscriptionState extends State<Page__Discription> {
     ]);
   }
 
+  CarouselController slide_controller = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     var kala_amount = product.amount;
@@ -291,11 +298,106 @@ class _Page__DiscriptionState extends State<Page__Discription> {
             SizedBox(
               height: 30,
             ),
-            Center(
-              child: Image.network(
-                product.img,
-                height: MediaQuery.of(context).size.width - 20,
-              ),
+            Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    // child: Container(
+                    //   height: 250,
+                    //   width: 80,
+                    //   child: PhotoView(
+                    //     imageProvider: NetworkImage(product.img),
+                    //   ),
+                    // )
+
+                    child: CarouselSlider(
+                      items: [
+                        // Image.network(product.img),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ImageView(product, 0)));
+                          },
+                          child: Image.network(
+                            product.img,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ImageView(product, 1)));
+                          },
+                          child: Image.network(product.img2),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ImageView(product, 2)));
+                          },
+                          child: Image.network(product.img3),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ImageView(product, 3)));
+                          },
+                          child: Image.network(product.img4),
+                        ),
+                        // Image.network(product.img2),
+                        // Image.network(product.img3),
+                        // Image.network(product.img4),
+                      ],
+                      options: CarouselOptions(
+                        height: 180.0,
+                        enlargeCenterPage: true,
+                        autoPlay: false,
+                        aspectRatio: 16 / 9,
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enableInfiniteScroll: true,
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        viewportFraction: 0.8,
+                      ),
+                      carouselController: slide_controller,
+                    ),
+
+                    // child: Image.network(
+                    //   product.img,
+                    //   height: MediaQuery.of(context).size.width - 20,
+                    // ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: InkWell(
+                    onTap: () {
+                      slide_controller.nextPage();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 8, right: 8, top: 60),
+                      child: Image.network(
+                        "http://193.176.243.61/media/outline_arrow_back_ios_black_48dp.png",
+                        height: 25,
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () {
+                        slide_controller.previousPage();
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 8, right: 8, top: 60),
+                        child: Image.network(
+                          "http://193.176.243.61/media/outline_arrow_forward_ios_black_48dp.png",
+                          height: 25,
+                        ),
+                      ),
+                    )),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5, bottom: 5),

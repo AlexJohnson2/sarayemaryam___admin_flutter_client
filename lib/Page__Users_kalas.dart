@@ -1,3 +1,4 @@
+import 'Page__Edit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'globals.dart' as globals;
@@ -6,19 +7,18 @@ import 'package:http/http.dart';
 import 'Page__Discription.dart';
 import 'dart:convert';
 import 'StoreTab.dart';
-import 'ItemsList.dart';
 import 'Page__Edit.dart';
 
-class Page__Haraji extends StatefulWidget {
+class Page__Users_kalas extends StatefulWidget {
   @override
-  _Page__HarajiState createState() => _Page__HarajiState();
+  _Page__Users_kalasState createState() => _Page__Users_kalasState();
 }
 
-class _Page__HarajiState extends State<Page__Haraji> {
+class _Page__Users_kalasState extends State<Page__Users_kalas> {
   List<Product> _items = [];
 
   void getItems() async {
-    var url = Uri.http(globals.django_url, globals.haraji_getall_url);
+    var url = Uri.http(globals.django_url, globals.users_kalas_getall_url);
     Response response = await get(url);
     setState(() {
       _items = [];
@@ -49,7 +49,7 @@ class _Page__HarajiState extends State<Page__Haraji> {
   }
 
   void delete_kala(product) async {
-    var url = Uri.http(globals.django_url, globals.haraji_delete_url);
+    var url = Uri.http(globals.django_url, globals.users_kalas_delete_url);
     Response response = await post(url, body: {"id": product.id.toString()});
     getItems();
   }
@@ -247,11 +247,12 @@ class _Page__HarajiState extends State<Page__Haraji> {
       globals.items = [];
     });
     getItems();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    getItems();
+    // getItems();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -272,7 +273,6 @@ class _Page__HarajiState extends State<Page__Haraji> {
         elevation: 2,
       ),
       body: ListView(
-        shrinkWrap: true,
         children: [
           Container(
             child: Container(
@@ -292,26 +292,5 @@ class _Page__HarajiState extends State<Page__Haraji> {
         ],
       ),
     );
-  }
-}
-
-void check(product) async {
-  var url = Uri.http(globals.django_url, globals.get_all_cart_url);
-  Response response = await post(url, body: {"user": globals.username});
-  var this_kala = {
-    "id": product.id.toString(),
-    "name": product.name,
-    "amount": product.amount,
-    "img": product.img,
-    "num": product.num
-  };
-
-  if (jsonDecode(response.body)['result'].toString().contains(product.name)) {
-    print(product.name);
-  }
-  if (jsonDecode(response.body)['result'].toString().contains(product.name)) {
-    globals.to_cart = true;
-  } else {
-    globals.to_cart = false;
   }
 }

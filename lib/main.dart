@@ -129,6 +129,9 @@ class Sarayemaryam extends StatefulWidget {
 class _SarayemaryamState extends State<Sarayemaryam> {
   var namecontroller = TextEditingController();
   var textcontroller = TextEditingController();
+  var usercontroller = TextEditingController();
+  var phonecontroller = TextEditingController();
+  var citycontroller = TextEditingController();
   var amountcontroller = TextEditingController();
   var imagecontroller = TextEditingController(text: "");
   var image2controller = TextEditingController(text: "");
@@ -166,7 +169,7 @@ class _SarayemaryamState extends State<Sarayemaryam> {
   bool namojood = false;
 
   void add_kala(name, text, amount, image, mojoodi, dastebandi, context, image2,
-      image3, image4) async {
+      image3, image4, user, phone, city) async {
     print(json.encode(globals.new_color_size));
 
     var url = Uri.http(
@@ -190,7 +193,10 @@ class _SarayemaryamState extends State<Sarayemaryam> {
       "img3": image3.toString(),
       "img4": image4.toString(),
       "num": this_mojoodi.toString(),
-      "color_size": json.encode(globals.new_color_size).toString()
+      "color_size": json.encode(globals.new_color_size).toString(),
+      'user': user,
+      'phone': phone,
+      'city': city
     });
     print(response.body);
 
@@ -202,6 +208,13 @@ class _SarayemaryamState extends State<Sarayemaryam> {
     image3controller.clear();
     image4controller.clear();
     mojoodicontroller.clear();
+    usercontroller.clear();
+    phonecontroller.clear();
+    citycontroller.clear();
+    imagename = "آپلود عکس اول";
+    imagename2 = "آپلود عکس دوم";
+    imagename3 = "آپلود عکس سوم";
+    imagename4 = "آپلود عکس چهارم";
     globals.new_color_size = {};
 
     if (json.decode(response.body)['status'] == "ok") {
@@ -717,6 +730,75 @@ class _SarayemaryamState extends State<Sarayemaryam> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 15,
+            ),
+            Material(
+              child: TextField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "نام کاربر",
+                    hintStyle: TextStyle(color: Colors.black38),
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Icon(
+                        Icons.credit_card_outlined,
+                        color: Colors.black38,
+                      ),
+                    )),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+                controller: usercontroller,
+              ),
+              elevation: 20,
+              borderRadius: BorderRadius.circular(40),
+            ),
+            SizedBox(height: 15),
+
+            Material(
+              child: TextField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "شماره تلفن کاربر",
+                    hintStyle: TextStyle(color: Colors.black38),
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Icon(
+                        Icons.credit_card_outlined,
+                        color: Colors.black38,
+                      ),
+                    )),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+                controller: phonecontroller,
+              ),
+              elevation: 20,
+              borderRadius: BorderRadius.circular(40),
+            ),
+            SizedBox(height: 15),
+            Material(
+              child: TextField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "شهر توزیع کالا برای کاربر",
+                    hintStyle: TextStyle(color: Colors.black38),
+                    contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Icon(
+                        Icons.credit_card_outlined,
+                        color: Colors.black38,
+                      ),
+                    )),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+                controller: citycontroller,
+              ),
+              elevation: 20,
+              borderRadius: BorderRadius.circular(40),
+            ),
             SizedBox(height: 15),
             Padding(
               padding: EdgeInsets.only(left: 50, right: 50),
@@ -727,17 +809,19 @@ class _SarayemaryamState extends State<Sarayemaryam> {
                 child: InkWell(
                   onTap: () {
                     add_kala(
-                      namecontroller.text,
-                      textcontroller.text,
-                      amountcontroller.text,
-                      imagename,
-                      mojoodicontroller.text,
-                      globals.add_dastebandi,
-                      context,
-                      imagename2,
-                      imagename3,
-                      imagename4,
-                    );
+                        namecontroller.text,
+                        textcontroller.text,
+                        amountcontroller.text,
+                        imagename,
+                        mojoodicontroller.text,
+                        globals.add_dastebandi,
+                        context,
+                        imagename2,
+                        imagename3,
+                        imagename4,
+                        usercontroller.text,
+                        phonecontroller.text,
+                        citycontroller.text);
                     // getImage();
                   },
                   child: Container(
@@ -772,7 +856,7 @@ Card generateItem(Product product, context) {
       onTap: () {
         //var item_ = globals.pooshak_mardane_getall_res['result'][id]
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => Page__Discription(product, false)));
+            builder: (context) => Page__Discription(product, [])));
       },
       child: Center(
         child: Column(

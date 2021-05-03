@@ -11,6 +11,9 @@ class Product {
   String _number;
   String _group;
   Map color_size;
+  String user;
+  String phone;
+  String city;
 
   Product(
       this._id,
@@ -24,7 +27,10 @@ class Product {
       this.color_size,
       this.img2,
       this.img3,
-      this.img4);
+      this.img4,
+      this.user,
+      this.phone,
+      this.city);
 
   String get number => _number;
 

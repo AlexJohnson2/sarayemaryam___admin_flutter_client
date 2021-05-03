@@ -40,7 +40,10 @@ class _Page__Hejab_Saghedast_DastkeshState
             i['color_size'],
             i['img2'],
             i['img3'],
-            i['img4']);
+            i['img4'],
+            i['user'],
+            i['phone'],
+            i['city']);
         _items.add(item);
         globals.items = _items;
       }
@@ -125,9 +128,30 @@ class _Page__Hejab_Saghedast_DastkeshState
                 product.color_size,
                 product.img2,
                 product.img3,
-                product.img4);
+                product.img4,
+                product.user,
+                product.phone,
+                product.city);
+            List Colors_values = [];
+            for (var i in product.color_size["result"]) {
+              var all_amount = 0;
+              print(i['color']);
+              for (var j in i["size"]) {
+                print(j);
+                if (j['num'] == "0") {
+                  print("num is 0");
+                } else {
+                  all_amount += int.parse(j['num']);
+                }
+                // selectedSize = j["size"];
+              }
+              if (all_amount == 0) {
+              } else {
+                Colors_values.add(i['color']);
+              }
+            }
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Page__Discription(kala, false)));
+                builder: (context) => Page__Discription(kala, Colors_values)));
           },
           child: Padding(
             padding:

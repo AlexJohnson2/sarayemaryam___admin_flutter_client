@@ -20,6 +20,7 @@ import 'Page__Hejab.dart';
 import 'Page__Sefaresh_Sayer.dart';
 import 'Page__Pishnahad_Vizhe.dart';
 import 'Page__Zivar_alat.dart';
+import 'Page__Users_kalas.dart';
 
 class StoreTab extends StatefulWidget {
   @override
@@ -90,6 +91,57 @@ class _StoreTabState extends State<StoreTab> {
                         (int position) {
                       return generateItem(
                           globals.pooshak_items[position], context);
+                    }),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 20, top: 10),
+              child: Stack(children: [
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "بازار کاربران",
+                    style: TextStyle(fontSize: 23, color: Colors.black),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, top: 8),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Page__Users_kalas()));
+                      },
+                      child: Text(
+                        "مشاهده همه",
+                        style: TextStyle(fontSize: 18, color: Colors.blue[600]),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+            Container(
+              child: Container(
+                height: 250,
+                child: Padding(
+                  padding: EdgeInsets.all(15),
+                  child: GridView.count(
+                    reverse: true,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 15,
+                    crossAxisCount: 1,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(globals.users_kalas_items.length,
+                        (int position) {
+                      return generateItem(
+                          globals.users_kalas_items[position], context);
                     }),
                   ),
                 ),

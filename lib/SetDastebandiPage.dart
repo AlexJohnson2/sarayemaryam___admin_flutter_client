@@ -56,7 +56,8 @@ enum SendKalaValues {
   sefaresh_pesarane,
   sefaresh_dokhtarane,
   sefaresh_nozadi,
-  sefaresh_sayer
+  sefaresh_sayer,
+  users_kalas
 }
 
 SendKalaValues _Ersal = SendKalaValues.pooshak_mardane;
@@ -684,6 +685,31 @@ class _SetDastebandiPageState extends State<SetDastebandiPage> {
                                   textAlign: TextAlign.center,
                                 ),
                                 value: SendKalaValues.sefaresh_sayer,
+                                groupValue: _Ersal,
+                                onChanged: (SendKalaValues value) {
+                                  setState(() {
+                                    _Ersal = value;
+                                    globals.add_dastebandi_btn_text =
+                                        _Ersal.toString().substring(
+                                            15, _Ersal.toString().length);
+                                    globals.add_dastebandi = _Ersal.toString();
+                                  });
+                                }),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Material(
+                            color: Colors.red[100],
+                            borderRadius: BorderRadius.circular(50),
+                            child: RadioListTile<SendKalaValues>(
+                                title: Text(
+                                  "بازار کاربران",
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(fontSize: 18),
+                                  textAlign: TextAlign.center,
+                                ),
+                                value: SendKalaValues.users_kalas,
                                 groupValue: _Ersal,
                                 onChanged: (SendKalaValues value) {
                                   setState(() {
